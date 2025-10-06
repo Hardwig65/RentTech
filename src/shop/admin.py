@@ -1,6 +1,7 @@
-from django.contrib import admin
-from shop.models import (Product,PricePlan)
-
-admin.site.register(Product)
-admin.site.register(PricePlan)
-# Register your models here.
+# from django.contrib import admin
+# from shop.models import (Product, PricePlan, Order, Feedback)
+#
+#
+# admin.site.register(PricePlan)
+# admin.site.register(Order)
+# admin.site.register(Feedback)

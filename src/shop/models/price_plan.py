@@ -28,7 +28,18 @@ class PricePlan(models.Model):
     def __str__(self):
         return f"{self.product.name} - {self.get_duration_display()}: {self.rental_price}"
 
+    # Цена аренды не ниже 0
     def clean(self):
         super().clean()
         if self.rental_price <= 0:
             raise ValidationError({"rental_price": _("Rental price must be greater than 0.")})
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['product', 'duration'],
+                name='unique_duration_per_product'
+            )
+        ]
+        verbose_name = _('Price Plan')
+        verbose_name_plural = _('Price Plans')

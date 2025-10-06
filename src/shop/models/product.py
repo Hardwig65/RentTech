@@ -20,9 +20,7 @@ class Product(TimeConfig):
     category = models.CharField(choices = ProductCategory,default = ProductCategory.DEFAULT, verbose_name=_('Category'))
     buyout_price = (models.DecimalField(
         max_digits = 8,
-        decimal_places = 2
-        ,null=True,
-        blank=True,
+        decimal_places = 2,
         verbose_name=_('Buyout price')))
 
     def __str__(self):
@@ -37,7 +35,8 @@ class Product(TimeConfig):
     def get_all_prices(self):
         return {plan.duration: plan.rental_price for plan in self.price_plans.all()}
 
+    # Цена выкупа не ниже 0
     def clean(self):
         super().clean()
-        if self.buyout_price is not None and self.buyout_price <= 0:
+        if self.buyout_price <= 0:
             raise ValidationError({"buyout_price": _("Buyout price must be greater than 0.")})

@@ -5,3 +5,5 @@ from shop.models import Order
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ("product", "user", "price_plan")
+    list_filter = ("user",'product')
+    search_fields = ("product",'user',)

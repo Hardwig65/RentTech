@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Продукты{% endblock %}
+
+{% block content %}
+  <h2>Наши продукты</h2>
+
+  <div class="row mt-4">
+    {% for product in products %}
+      <div class="col-md-4 mb-3">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+          </div>
+          <div class="card-footer text-center">
+            <a href="#" class="btn btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>Пока нет доступных продуктов.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -39,10 +39,6 @@ class RegisterForm(Form):
         return cleaned_data
 
 
-
-
-
-
 class LoginForm(Form):
     username = forms.CharField(
         max_length = 20,
@@ -52,3 +48,15 @@ class LoginForm(Form):
     password = forms.CharField(
         label = 'Password',
         widget=forms.PasswordInput(attrs={"placeholder": "Введите пароль"}))
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control','readonly':'readonly'}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+        }
+

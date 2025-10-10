@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<div class="container mt-4" style="max-width: 600px;">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h3 class="mb-4 text-center">👤 Мой профиль</h3>
+      <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary mt-3">Сохранить изменения</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

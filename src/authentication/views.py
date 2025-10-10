@@ -1,9 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
-from django.contrib.auth import get_user_model
-from authentication.forms import LoginForm, RegisterForm
+from authentication.forms import LoginForm, RegisterForm, ProfileForm
 from authentication.models import CustomUser
 
 
@@ -15,7 +15,7 @@ def register_view(request):
             password = form.cleaned_data['password']
             user = CustomUser.objects.create_user(username=username, password=password)
             login(request, user)
-            return redirect(reverse('/home'))
+            return redirect(reverse('home'))
     else:
         form = RegisterForm()
     return render(request, 'register_form.html', {'form': form})
@@ -42,3 +42,19 @@ def logout_view(request):
     logout(request)
     messages.info(request, "Вы вышли из аккаунта.")
     return redirect(reverse("home"))
+
+@login_required
+def profile_view(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"✅ Данные профиля успешно обновлены.")
+            return redirect(reverse("profile"))
+    else:
+        form = ProfileForm(instance=user)
+
+    return render(request, 'profile.html', {'form': form})
+

@@ -43,7 +43,7 @@ def logout_view(request):
     messages.info(request, "Вы вышли из аккаунта.")
     return redirect(reverse("home"))
 
-@login_required
+@login_required()
 def profile_view(request):
     user = request.user
 

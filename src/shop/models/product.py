@@ -21,7 +21,10 @@ class Product(TimeConfig):
     buyout_price = (models.DecimalField(
         max_digits = 8,
         decimal_places = 2,
-        verbose_name=_('Buyout price')))
+        verbose_name=_('Buyout price'),
+        null=True,
+        blank=True))
+
 
     def __str__(self):
         return self.name

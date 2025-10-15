@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Моя корзина{% endblock %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">🛒 Моя корзина</h2>
+
+    <!-- === Покупка === -->
+    <div class="mb-5">
+      <h4 class="text-success mb-3">Покупка</h4>
+
+      {% if buyout_items %}
+        <table class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th>Товар</th>
+              <th>Цена выкупа</th>
+              <th>Действие</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in buyout_items %}
+              <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.buyout_price }} $</td>
+                <td>
+                  <a href="{% url 'remove_from_cart' item.product.id %}?type=buyout" class="btn btn-outline-danger btn-sm">
+                    Удалить
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-muted">Нет товаров для покупки.</p>
+      {% endif %}
+    </div>
+
+    <hr>
+
+    <!-- === Аренда === -->
+    <div>
+      <h4 class="text-primary mb-3">Аренда</h4>
+
+      {% if rental_items %}
+        <table class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th>Товар</th>
+              <th>План</th>
+              <th>Цена аренды</th>
+              <th>Действие</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in rental_items %}
+              <tr>
+                <td>{{ item.product.name }}</td>
+                <td>
+                  {% if item.price_plan.duration == 'D' %}На день
+                  {% elif item.price_plan.duration == 'W' %}На неделю
+                  {% elif item.price_plan.duration == 'M' %}На месяц
+                  {% endif %}
+                </td>
+                <td>{{ item.price_plan.rental_price }} $</td>
+                <td>
+                  <a href="{% url 'remove_from_cart' item.product.id %}?type=rental&plan={{ item.price_plan.id }}" class="btn btn-outline-danger btn-sm">
+                    Удалить
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-muted">Нет товаров в аренде.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

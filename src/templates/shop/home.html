@@ -3,8 +3,42 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-  <div class="text-center">
-    <h1>Добро пожаловать в RentTech!</h1>
-    <p class="lead">Арендуй технику — быстро, удобно, выгодно.</p>
+<div class="container mt-5">
+  <div class="text-center py-5 bg-light rounded-4 shadow-sm">
+    <h1 class="display-4 fw-bold text-primary mb-3">Добро пожаловать в RentTech!</h1>
+    <p class="lead text-secondary mb-4">
+      Арендуй технику — быстро, удобно и выгодно.
+    </p>
+    <a href="{% url 'product_list' %}" class="btn btn-primary btn-lg px-4">
+      Перейти в каталог
+    </a>
   </div>
+
+  <div class="row mt-5">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title text-primary">Широкий выбор</h5>
+          <p class="card-text text-muted">Техника для дома, офиса и проектов любой сложности.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title text-primary">Простая аренда</h5>
+          <p class="card-text text-muted">Минимум формальностей — максимум удобства.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title text-primary">Гибкие условия</h5>
+          <p class="card-text text-muted">Выбирай срок аренды и оборудование под свои задачи.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

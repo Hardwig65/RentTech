@@ -3,23 +3,74 @@
 {% block title %}Продукты{% endblock %}
 
 {% block content %}
-  <h2>Наши продукты</h2>
+  <h2 class="mb-4 text-center">Наши продукты</h2>
 
   <div class="row mt-4">
     {% for product in products %}
       <div class="col-md-4 mb-3">
-        <div class="card h-100 shadow-sm">
+        <div class="card h-100 shadow-sm hover-shadow text-center">
+
+          {% if product.image %}
+            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+          {% endif %}
+
           <div class="card-body">
             <h5 class="card-title">{{ product.name }}</h5>
             <p class="card-text">{{ product.description|truncatewords:20 }}</p>
           </div>
-          <div class="card-footer text-center">
-            <a href="#" class="btn btn-primary">Подробнее</a>
+
+          <div class="card-footer">
+            <!-- 💰 Выкуп -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="fw-bold">Выкуп: {{ product.buyout_price }} $</span>
+
+              {% if user.is_authenticated %}
+                <a href="{% url 'cart_view' %}?product_id={{ product.id }}" class="btn btn-success btn-sm">
+                  В корзину
+                </a>
+              {% else %}
+                <a href="{% url 'login' %}?next={% url 'cart_view' %}?product_id={{ product.id }}" class="btn btn-outline-secondary btn-sm">
+                  Войти
+                </a>
+              {% endif %}
+            </div>
+
+            <!-- 🕒 Планы аренды -->
+            {% if product.price_plans.all %}
+              <div class="border-top pt-2">
+                {% for plan in product.price_plans.all %}
+                  <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span>
+                      {% if plan.duration == 'D' %}
+                        На день
+                      {% elif plan.duration == 'W' %}
+                        На неделю
+                      {% elif plan.duration == 'M' %}
+                        На месяц
+                      {% else %}
+                        {{ plan.get_duration_display }}
+                      {% endif %}
+                      — <strong>{{ plan.rental_price }} $</strong>
+                    </span>
+
+                    {% if user.is_authenticated %}
+                      <a href="{% url 'cart_view' %}?product_id={{ product.id }}&plan={{ plan.id }}" class="btn btn-outline-primary btn-sm">
+                        Арендовать
+                      </a>
+                    {% else %}
+                      <a href="{% url 'login' %}?next={% url 'cart_view' %}?product_id={{ product.id }}&plan={{ plan.id }}" class="btn btn-outline-secondary btn-sm">
+                        Войти
+                      </a>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
           </div>
         </div>
       </div>
     {% empty %}
-      <p>Пока нет доступных продуктов.</p>
+      <p class="text-center">Пока нет доступных продуктов.</p>
     {% endfor %}
   </div>
 {% endblock %}

@@ -35,6 +35,9 @@
             <span class="navbar-text text-light me-3">Привет, {{ user.username }} 👋</span>
           </li>
           <li class="nav-item me-2">
+            <a class="btn btn-outline-success btn-sm" href="{% url 'cart_view' %}">🛒 Cart</a>
+          </li>
+          <li class="nav-item me-2">
             <a class="btn btn-outline-info btn-sm" href="{% url 'profile' %}">Личный кабинет</a>
           </li>
           <li class="nav-item">
